@@ -1,9 +1,8 @@
-
+# example netlify.toml
 [build]
   command = "npm run build"
   publish = "dist/meta-task"
 
-  
   [[redirects]]
     from = "/*"
     to = "/index.html"
