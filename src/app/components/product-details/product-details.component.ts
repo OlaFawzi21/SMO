@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DataService } from './../../services/data.service';
 import { Product } from 'src/app/interfaces/products';
 import { ActivatedRoute } from '@angular/router';
-import { Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-details',
@@ -16,13 +16,15 @@ export class ProductDetailsComponent {
   constructor(
     private dataService: DataService,
     activatedRoute: ActivatedRoute,
-    private meta: Meta
+    private meta: Meta,
+    private title: Title
   ) {
     const idParam = activatedRoute.snapshot.paramMap.get('id');
     this.id = idParam ? +idParam : 0;
   }
 
   ngOnInit(): void {
+    this.removeMetaTags();
     this.getProductDetails(this.id);
   }
 
@@ -30,23 +32,24 @@ export class ProductDetailsComponent {
     this.dataService.getProductDetails(id).subscribe({
       next: (res) => {
         this.product = res;
-        console.log(this.product);
 
-        this.meta.updateTag({ property: 'og:title', content: this.product.title });
-        this.meta.updateTag({
-          property: 'og:description',
-          content: this.product.description,
-        });
-        this.meta.updateTag({
-          property: 'og:image',
-          content: this.product.images[0],
-        });
-        this.meta.updateTag({ property: 'og:type', content: 'website' });
-        this.meta.updateTag({
-          property: 'og:url',
-          content: 'https://ola-task-m.netlify.app/#/products/'+id,
-        });
+        this.title.setTitle(this.product.title);
+        this.meta.addTags([
+          { property: 'og:title', content: this.product.title },
+          { property: 'og:description', content: this.product.description },
+          { property: 'og:image', content: this.product.images[0] },
+          { property: 'og:url', content: window.location.href },
+          { property: 'og:type', content: 'website' },
+        ]);
       },
     });
+  }
+
+  removeMetaTags() {
+    this.meta.removeTag("property='og:title'");
+    this.meta.removeTag("property='og:description'");
+    this.meta.removeTag("property='og:image'");
+    this.meta.removeTag("property='og:url'");
+    this.meta.removeTag("property='og:type'");
   }
 }
