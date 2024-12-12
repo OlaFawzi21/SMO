@@ -32,13 +32,16 @@ export class ProductDetailsComponent {
         this.product = res;
         console.log(this.product);
 
-        this.meta.addTag({ property: 'og:title', content: this.product.title });
-        this.meta.addTag({
+        this.meta.updateTag({ property: 'og:title', content: this.product.title });
+        this.meta.updateTag({
           property: 'og:description',
-          content:this.product.description,
+          content: this.product.description,
         });
-        this.meta.addTag({ property: 'og:image', content: this.product.images[0] });
-        this.meta.addTag({ property: 'og:type', content: 'article' });
+        this.meta.updateTag({
+          property: 'og:image',
+          content: this.product.images[0],
+        });
+        this.meta.updateTag({ property: 'og:type', content: 'article' });
       },
     });
   }
