@@ -41,7 +41,11 @@ export class ProductDetailsComponent {
           property: 'og:image',
           content: this.product.images[0],
         });
-        this.meta.updateTag({ property: 'og:type', content: 'article' });
+        this.meta.updateTag({ property: 'og:type', content: 'website' });
+        this.meta.updateTag({
+          property: 'og:url',
+          content: 'https://ola-task-m.netlify.app/#/products/'+id,
+        });
       },
     });
   }
