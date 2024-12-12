@@ -1,11 +1,10 @@
 
 [build]
-  command = "dist/meta-task"
-  publish = "dist/meta-task"
+  command = "npm run build"
+  publish = "dist\meta-task"
 
-
+  
   [[redirects]]
-   from = "/*"
+    from = "/*"
     to = "/index.html"
     status = 200
-
